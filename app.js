@@ -6,39 +6,22 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-    res.send('A simple Node App is ' + 'running on this server')
-    res.end()
-})
-
-app.get('/clientes', (req, res) => {
+app.post('/usuario/Cadastro', (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    return connect.execSQLQuery('select * from cliente', res);
+    return connect.execSQLQuery("insert into usuario (email, senha) values('" + req.body.email + "','" + req.body.senha + "')", res);
 })
 
-app.get('/clientes/:id', (req, res) => {
+app.get('/usuario/Listar', (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    return connect.execSQLQuery('select * from cliente where id=' + req.params.id, res);
+    return connect.execSQLQuery('select * from usuario', res);
 })
 
-app.put('/clientes/:id', (req, res) => {
+app.get('/usuario/Login', (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    return connect.execSQLQuery("update cliente set nome='" + req.body.nome + "' where id=" + req.params.id, res);
-})
-
-app.post('/clientes/', (req, res) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    return connect.execSQLQuery("insert into cliente (nome) value('" + req.body.nome + "')", res);
-})
-
-app.delete('/clientes/:id', (req, res) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    return connect.execSQLQuery("delete from cliente where id=" + req.params.id, res);
+    return connect.execSQLQuery("select * from usuario where email='" + req.params.email + "' and senha=" + req.params.senha, res);
 })
 
 const PORT = process.env.PORT || 5000;

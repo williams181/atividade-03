@@ -5,7 +5,7 @@ function execSQLQuery(sqlQry, res) {
         port: '3306',
         user: 'root',
         password: '',
-        database: 'node'
+        database: 'atividade04'
     });
 
     connection.query(sqlQry, function (error, results, fields) {
